@@ -1,4 +1,13 @@
 spring:
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+  flyway:
+    locations: classpath:db/migration
+    default-schema: public
+    baseline-on-migration: true
   profile:
     active: dev
 
