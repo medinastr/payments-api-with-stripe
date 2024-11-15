@@ -1,5 +1,6 @@
 package com.medinastr.payments.controller;
 
+import com.medinastr.payments.exception.InvalidDTOException;
 import com.medinastr.payments.model.dto.ProductsDTO;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -20,7 +21,9 @@ public class ProductsRestController {
     public ResponseEntity<ProductsDTO> createProduct(@RequestBody ProductsDTO productsDTO) {
         System.out.println(productsDTO.toString());
         List<String> messages = verifyDTO(productsDTO);
-        messages.forEach(System.out::println);
+        if(!messages.isEmpty()) {
+            throw new InvalidDTOException(messages);
+        }
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
