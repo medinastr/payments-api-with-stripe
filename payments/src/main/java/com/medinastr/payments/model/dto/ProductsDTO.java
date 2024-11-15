@@ -17,13 +17,14 @@ public class ProductsDTO {
 
     private Long id;
 
-    @NotNull @NotBlank
-    @Size(min = 2, max = 100)
+    @NotNull(message = "Name can not be null.")
+    @NotBlank(message = "Name can not be null.")
+    @Size(min = 2, max = 100, message = "Name needs to have more than 2 characters.")
     private String name;
 
-    @Size(max = 255)
+    @Size(max = 255, message = "Description can not have more than 255 characters.")
     private String description;
 
-    @Min(value = 0)
+    @Min(value = 0, message = "Invalid price.")
     private Float price;
 }
