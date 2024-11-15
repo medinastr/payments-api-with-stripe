@@ -9,11 +9,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.xml.transform.Source;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductsDTO {
+public class ProductsDTO implements Source {
 
     private Long id;
 
@@ -27,4 +29,14 @@ public class ProductsDTO {
 
     @Min(value = 0, message = "Invalid price.")
     private Float price;
+
+    @Override
+    public void setSystemId(String systemId) {
+
+    }
+
+    @Override
+    public String getSystemId() {
+        return "";
+    }
 }
