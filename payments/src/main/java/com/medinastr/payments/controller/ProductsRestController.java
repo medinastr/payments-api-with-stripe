@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.List;
 import java.util.Set;
 
@@ -19,7 +20,6 @@ public class ProductsRestController {
 
     @PostMapping("/products")
     public ResponseEntity<ProductsDTO> createProduct(@RequestBody ProductsDTO productsDTO) {
-        System.out.println(productsDTO.toString());
         List<String> messages = verifyDTO(productsDTO);
         if(!messages.isEmpty()) {
             throw new InvalidDTOException(messages);
