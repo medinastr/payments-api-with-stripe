@@ -15,7 +15,7 @@ import javax.xml.transform.Source;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProductsDTO implements Source {
+public class ProductsDTO {
 
     private Long id;
 
@@ -29,14 +29,4 @@ public class ProductsDTO implements Source {
 
     @Min(value = 0, message = "Invalid price.")
     private Float price;
-
-    @Override
-    public void setSystemId(String systemId) {
-
-    }
-
-    @Override
-    public String getSystemId() {
-        return "";
-    }
 }
