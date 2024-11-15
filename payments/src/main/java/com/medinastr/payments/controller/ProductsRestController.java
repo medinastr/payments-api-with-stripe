@@ -19,6 +19,8 @@ public class ProductsRestController {
     @PostMapping("/products")
     public ResponseEntity<ProductsDTO> createProduct(@RequestBody ProductsDTO productsDTO) {
         System.out.println(productsDTO.toString());
+        List<String> messages = verifyDTO(productsDTO);
+        messages.forEach(System.out::println);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
