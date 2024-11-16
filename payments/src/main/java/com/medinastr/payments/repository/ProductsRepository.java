@@ -13,5 +13,5 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
     @Query(value = "SELECT p FROM Products p WHERE p.price < :price")
     List<Products> findLowPrices(Float price);
 
-    List<Products> findAllPricesLessThan(Float price);
+    List<Products> findAllByPriceLessThan(Float price);
 }
