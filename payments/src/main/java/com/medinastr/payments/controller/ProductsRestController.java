@@ -9,11 +9,13 @@ import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -41,8 +43,8 @@ public class ProductsRestController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductsDTO>> findAll() {
-        List<Products> products = productsService.findAll();
+    public ResponseEntity<List<ProductsDTO>> findAll(@RequestParam Integer page) {
+        Page<Products> products = productsService.findAll(page);
         List<ProductsDTO> dbProducts = products.stream()
                 .map(ProductsDTO::new).toList();
         return ResponseEntity.status(HttpStatus.OK).body(dbProducts);
