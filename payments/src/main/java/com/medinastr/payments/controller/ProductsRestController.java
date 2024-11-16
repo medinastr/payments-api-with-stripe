@@ -1,6 +1,7 @@
 package com.medinastr.payments.controller;
 
 import com.medinastr.payments.exception.InvalidDTOException;
+import com.medinastr.payments.model.dto.ProductsCollectionDTO;
 import com.medinastr.payments.model.dto.ProductsDTO;
 import com.medinastr.payments.model.entity.Products;
 import com.medinastr.payments.service.ProductsService;
@@ -9,10 +10,13 @@ import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -37,6 +41,20 @@ public class ProductsRestController {
         Products dbProduct = productsService.save(productsDTO);
         ProductsDTO dbProductDTO = new ProductsDTO(dbProduct);
         return ResponseEntity.status(HttpStatus.CREATED).body(dbProductDTO);
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<ProductsCollectionDTO> findAll(@RequestParam Integer page) {
+        Page<Products> products = productsService.findAll(page);
+        List<ProductsDTO> productsDTOList = products.get()
+                .map(ProductsDTO::new).toList();
+
+        ProductsCollectionDTO response = new ProductsCollectionDTO();
+        response.setCurrent(page);
+        response.setPages(products.getTotalPages());
+        response.setProductsDTOList(productsDTOList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
      private List<String> verifyDTO (ProductsDTO productsDTO) {
