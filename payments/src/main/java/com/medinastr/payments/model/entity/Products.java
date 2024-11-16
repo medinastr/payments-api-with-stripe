@@ -1,5 +1,6 @@
 package com.medinastr.payments.model.entity;
 
+import com.medinastr.payments.model.dto.ProductsDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,4 +26,11 @@ public class Products {
     private String description;
 
     private Float price;
+
+    public Products(ProductsDTO productsDTO) {
+        this.id = productsDTO.getId();
+        this.name = productsDTO.getName();
+        this.description = productsDTO.getDescription();
+        this.price = productsDTO.getPrice();
+    }
 }
