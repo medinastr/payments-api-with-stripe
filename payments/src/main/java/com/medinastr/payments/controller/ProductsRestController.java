@@ -1,6 +1,7 @@
 package com.medinastr.payments.controller;
 
 import com.medinastr.payments.exception.InvalidDTOException;
+import com.medinastr.payments.model.dto.ProductsCollectionDTO;
 import com.medinastr.payments.model.dto.ProductsDTO;
 import com.medinastr.payments.model.entity.Products;
 import com.medinastr.payments.service.ProductsService;
@@ -43,11 +44,17 @@ public class ProductsRestController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductsDTO>> findAll(@RequestParam Integer page) {
+    public ResponseEntity<ProductsCollectionDTO> findAll(@RequestParam Integer page) {
         Page<Products> products = productsService.findAll(page);
-        List<ProductsDTO> dbProducts = products.stream()
+        List<ProductsDTO> productsDTOList = products.get()
                 .map(ProductsDTO::new).toList();
-        return ResponseEntity.status(HttpStatus.OK).body(dbProducts);
+
+        ProductsCollectionDTO response = new ProductsCollectionDTO();
+        response.setCurrent(page);
+        response.setPages(products.getTotalPages());
+        response.setProductsDTOList(productsDTOList);
+
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
      private List<String> verifyDTO (ProductsDTO productsDTO) {
