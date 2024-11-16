@@ -6,6 +6,8 @@ import com.medinastr.payments.repository.ProductsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductsService {
 
@@ -20,5 +22,8 @@ public class ProductsService {
         Products products = new Products(productsDTO);
         products.setId(null);
         return productsRepository.save(products);
+    }
+    public List<Products> findAll() {
+        return productsRepository.findAll();
     }
 }
