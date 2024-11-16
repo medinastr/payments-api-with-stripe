@@ -14,12 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @RestController
@@ -54,6 +56,17 @@ public class ProductsRestController {
         response.setPages(products.getTotalPages());
         response.setProductsDTOList(productsDTOList);
 
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @GetMapping("/products/{id}")
+    public ResponseEntity<ProductsDTO> findById(@PathVariable("id") Long id) {
+        Optional<Products> optionalProducts = productsService.findById(id);
+        if(optionalProducts.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        Products products = optionalProducts.get();
+        ProductsDTO response = new ProductsDTO(products);
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
