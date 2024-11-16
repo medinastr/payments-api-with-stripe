@@ -9,7 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductsService {
@@ -30,5 +30,9 @@ public class ProductsService {
     public Page<Products> findAll(int page) {
         Pageable pageable = PageRequest.of(page, 5);
         return productsRepository.findAll(pageable);
+    }
+
+    public Optional<Products> findById(long id) {
+        return productsRepository.findById(id);
     }
 }
