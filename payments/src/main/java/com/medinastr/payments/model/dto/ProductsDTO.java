@@ -1,5 +1,6 @@
 package com.medinastr.payments.model.dto;
 
+import com.medinastr.payments.model.entity.Products;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,4 +28,11 @@ public class ProductsDTO {
 
     @Min(value = 0, message = "Invalid price.")
     private Float price;
+
+    public ProductsDTO(Products products) {
+        this.id = products.getId();
+        this.name = products.getName();
+        this.description = products.getDescription();
+        this.price = products.getPrice();
+    }
 }
