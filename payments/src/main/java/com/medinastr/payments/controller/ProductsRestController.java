@@ -2,10 +2,13 @@ package com.medinastr.payments.controller;
 
 import com.medinastr.payments.exception.InvalidDTOException;
 import com.medinastr.payments.model.dto.ProductsDTO;
+import com.medinastr.payments.model.entity.Products;
+import com.medinastr.payments.service.ProductsService;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;
 import jakarta.validation.Validator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,13 +21,22 @@ import java.util.Set;
 @RestController
 public class ProductsRestController {
 
+    private final ProductsService productsService;
+
+    @Autowired
+    public ProductsRestController(ProductsService productsService) {
+        this.productsService = productsService;
+    }
+
     @PostMapping("/products")
     public ResponseEntity<ProductsDTO> createProduct(@RequestBody ProductsDTO productsDTO) {
         List<String> messages = verifyDTO(productsDTO);
         if(!messages.isEmpty()) {
             throw new InvalidDTOException(messages);
         }
-        return new ResponseEntity<>(HttpStatus.OK);
+        Products dbProduct = productsService.save(productsDTO);
+        ProductsDTO dbProductDTO = new ProductsDTO(dbProduct);
+        return ResponseEntity.status(HttpStatus.CREATED).body(dbProductDTO);
     }
 
      private List<String> verifyDTO (ProductsDTO productsDTO) {
