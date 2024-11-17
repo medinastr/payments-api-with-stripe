@@ -3,6 +3,9 @@ package com.medinastr.payments.service;
 import com.medinastr.payments.model.dto.ProductsDTO;
 import com.medinastr.payments.model.entity.Products;
 import com.medinastr.payments.repository.ProductsRepository;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Product;
+import com.stripe.param.ProductCreateParams;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,9 +24,21 @@ public class ProductsService {
         this.productsRepository = productsRepository;
     }
 
-    public Products save(ProductsDTO productsDTO) {
+    public Products save(ProductsDTO productsDTO) throws StripeException {
         Products products = new Products(productsDTO);
+
+        Product stripeProduct = Product.create(ProductCreateParams.builder()
+                .setName(products.getName())
+                .setDescription(products.getDescription())
+                .setDefaultPriceData(ProductCreateParams.DefaultPriceData.builder()
+                        .setCurrency("brl")
+                        .setUnitAmount((long)(products.getPrice() * 100))
+                        .build()
+                )
+                .build());
+
         products.setId(null);
+        products.setStripeId(stripeProduct.getId());
         return productsRepository.save(products);
     }
 

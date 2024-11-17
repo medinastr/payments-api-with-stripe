@@ -27,10 +27,14 @@ public class Products {
 
     private Float price;
 
+    @Column(name = "stripe_id")
+    private String stripeId;
+
     public Products(ProductsDTO productsDTO) {
         this.id = productsDTO.getId();
         this.name = productsDTO.getName();
         this.description = productsDTO.getDescription();
         this.price = productsDTO.getPrice();
+        this.stripeId = productsDTO.getStripeId();
     }
 }

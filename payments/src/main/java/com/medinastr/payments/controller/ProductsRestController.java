@@ -5,6 +5,7 @@ import com.medinastr.payments.model.dto.ProductsCollectionDTO;
 import com.medinastr.payments.model.dto.ProductsDTO;
 import com.medinastr.payments.model.entity.Products;
 import com.medinastr.payments.service.ProductsService;
+import com.stripe.exception.StripeException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.ValidatorFactory;
@@ -35,7 +36,7 @@ public class ProductsRestController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<ProductsDTO> createProduct(@RequestBody ProductsDTO productsDTO) {
+    public ResponseEntity<ProductsDTO> createProduct(@RequestBody ProductsDTO productsDTO) throws StripeException {
         List<String> messages = verifyDTO(productsDTO);
         if(!messages.isEmpty()) {
             throw new InvalidDTOException(messages);
