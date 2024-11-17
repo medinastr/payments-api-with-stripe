@@ -29,10 +29,13 @@ public class ProductsDTO {
     @Min(value = 0, message = "Invalid price.")
     private Float price;
 
+    private String stripeId;
+
     public ProductsDTO(Products products) {
         this.id = products.getId();
         this.name = products.getName();
         this.description = products.getDescription();
         this.price = products.getPrice();
+        this.stripeId = products.getStripeId();
     }
 }

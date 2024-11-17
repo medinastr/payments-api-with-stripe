@@ -35,5 +35,6 @@ public class Products {
         this.name = productsDTO.getName();
         this.description = productsDTO.getDescription();
         this.price = productsDTO.getPrice();
+        this.stripeId = productsDTO.getStripeId();
     }
 }
