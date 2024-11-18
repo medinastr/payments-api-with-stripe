@@ -1,5 +1,6 @@
 package com.medinastr.payments.service;
 
+import com.medinastr.payments.exception.InvalidProductException;
 import com.medinastr.payments.model.dto.OrdersDTO;
 import com.medinastr.payments.model.entity.Products;
 import com.medinastr.payments.repository.OrdersRepository;
@@ -26,7 +27,7 @@ public class OrdersService {
         Long productId = ordersDTO.getProductsId();
         Optional<Products> optionalProducts = productsRepository.findById(productId);
         if(optionalProducts.isEmpty()) {
-            throw new RuntimeException("Product not found.");
+            throw new InvalidProductException(productId);
         }
         Products products = optionalProducts.get();
         return null;
