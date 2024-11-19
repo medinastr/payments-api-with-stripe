@@ -36,8 +36,8 @@ public class OrdersService {
         }
         Products products = optionalProducts.get();
         Orders orders = new Orders(products);
-        orders = ordersRepository.save(orders);
-        Session session = createSession(orders.getId(), products);
+        Orders dbOrders = ordersRepository.save(orders);
+        Session session = createSession(dbOrders.getId(), products);
         return session.getUrl();
     }
 
